@@ -287,9 +287,9 @@ const EIXOS_POLITICOS = [
   {
     label: "1. Imposto sobre Grandes Heranças",
     opcoes: [
-      "Alto: O governo cobra taxas altas sobre grandes heranças para financiar um fundo de ajuda para os jovens começarem a vida.",
-      "Moderado: Taxas equilibradas para que as famílias passem bens aos filhos, mas sem acumular fortunas eternas.",
-      "Zero: Sem impostos sobre herança. Cada um passa tudo o que tem para os filhos sem dar nada ao State."
+      "Imposto alto: Parte das grandes heranças vai para programas que ajudam jovens a estudar, trabalhar e começar a vida adulta.",
+      "Imposto moderado: As famílias podem deixar bens aos filhos, mas uma parte é destinada ao governo.",
+      "Sem imposto: Toda a herança fica com os herdeiros."
     ],
     matriz: { elite: [-3, 0, 3], classe_media: [0, 1, -1], trabalhador: [2, 1, -2], vulneravel: [3, 0, -3] },
     meta: { pos: "diminui a desigualdade de quem já nasce milionário e distribui oportunidades para quem está começando do zero.", neg: "reduz o patrimônio que sua família juntou e diminui sua liberdade de investir seu próprio dinheiro." }
@@ -297,9 +297,9 @@ const EIXOS_POLITICOS = [
   {
     label: "2. Sistema de Saúde",
     opcoes: [
-      "100% Público e Gratuito: Hospitais privados de luxo são proibidos. Todo o dinheiro vai para um sistema público único de qualidade para todos.",
-      "Sistema Misto: O governo mantém hospitais públicos funcionando em paralelo com planos de saúde particulares.",
-      "Mercado Livre: O governo só atende quem está na miséria absoluta; o restante da população precisa pagar consultas e planos do próprio bolso."
+      "Somente sistema público: Todos usam a rede pública de saúde, financiada pelo governo.",
+      "Sistema misto: Existem hospitais públicos e também planos de saúde privados.",
+      "Predomínio privado: A maioria das pessoas paga por consultas e planos de saúde."
     ],
     matriz: { elite: [-1, 2, 1], classe_media: [1, 2, -2], trabalhador: [3, 1, -3], vulneravel: [3, -1, -4] },
     meta: { pos: "protege você e sua família de falirem ou ficarem sem atendimento caso fiquem gravemente doentes.", neg: "faz com que o seu tratamento de saúde dependa diretamente do dinheiro que você tem na conta bancária." }
@@ -307,9 +307,9 @@ const EIXOS_POLITICOS = [
   {
     label: "3. Cotas e Ações Afirmativas (Raça e Gênero)",
     opcoes: [
-      "Cotas Obrigatórias: Vagas reservadas por lei para negros, indígenas e mulheres em universidades, cargos públicos e diretorias de empresas particulares.",
-      "Incentivos e Apoio: O governo dá descontos nos impostos para empresas que contratam minorias e financia cursinhos populares.",
-      "Livre Concorrência Absoluta: Nenhuma lei de cotas. As seleções usam apenas notas e currículos, sem olhar para gênero ou raça."
+      "Cotas obrigatórias: Parte das vagas é reservada para grupos historicamente excluídos.",
+      "Incentivos: O governo incentiva a inclusão sem reservar vagas obrigatórias.",
+      "Sem cotas: Seleções baseadas apenas em notas, provas e currículo."
     ],
     matriz: { elite: [-2, 1, 2], classe_media: [1, 2, -1], trabalhador: [2, 1, -1], vulneravel: [3, 1, -2] },
     meta: { pos: "ajuda a corrigir injustiças históricas e abre portas para quem sempre foi excluído do mercado.", neg: "fecha vagas competitivas tradicionais para quem confiava apenas na concorrência padrão por notas." }
@@ -317,9 +317,9 @@ const EIXOS_POLITICOS = [
   {
     label: "4. Salário Máximo e Diferenças de Renda",
     opcoes: [
-      "Teto Rígido: O maior salário do país (seja de um jogador de futebol ou grande empresário) não pode passar de 15 vezes o salário mínimo.",
-      "Teto Público: Limitação de super-salários apenas para políticos, juízes e altos cargos do governo.",
-      "Sem Limites: O mercado decide. Se um empresário ou influenciador ganhar milhões por mês, o governo não interfere."
+      "Limite para todos: Nenhum salário pode ultrapassar um valor máximo definido por lei.",
+      "Limite apenas no setor público: Restrições para altos salários de autoridades governamentais.",
+      "Sem limite: Cada pessoa pode ganhar o quanto o mercado pagar."
     ],
     matriz: { elite: [-3, -1, 3], classe_media: [1, 1, 0], trabalhador: [2, 1, -2], vulneravel: [3, 0, -2] },
     meta: { pos: "diminui a distância absurda entre os mais ricos e os mais pobres, ajudando a subir o salário da base.", neg: "permite acumular o máximo de riqueza possível e recompensa quem tem talentos raros valorizados pelo mercado." }
@@ -327,9 +327,9 @@ const EIXOS_POLITICOS = [
   {
     label: "5. Meio Ambiente e Mudança Climática",
     opcoes: [
-      "Leis Ambientais Rígidas: Multas pesadas e fechamento de indústrias poluentes. Proibição de desmatar novas áreas, mesmo que isso diminua a produção.",
-      "Transição Ecológica: O governo dá prêmios e incentivos para empresas que usarem energia solar ou limpa.",
-      "Foco no Crescimento Econômico: Flexibilização das leis de desmatamento e poluição para abrir indústrias e empregos rapidamente."
+      "Proteção ambiental forte: Regras rígidas contra poluição e desmatamento.",
+      "Transição gradual: Incentivos para empresas adotarem práticas mais sustentáveis.",
+      "Prioridade ao crescimento econômico: Menos restrições ambientais para gerar empregos e produção."
     ],
     matriz: { elite: [-3, 1, 3], classe_media: [1, 1, -1], trabalhador: [-1, 1, 2], vulneravel: [2, 1, -2] },
     meta: { pos: "protege você dos desastres do clima, como enchentes, ondas de calor e contaminação da água.", neg: "ajuda a abrir vagas rápidas de trabalho em indústrias e fazendas, aumentando o lucro imediato dos negócios." }
@@ -337,9 +337,9 @@ const EIXOS_POLITICOS = [
   {
     label: "6. Ajuda Financeira e Renda Básica",
     opcoes: [
-      "Renda Básica Universal: Todo e qualquer cidadão do país recebe um salário mínimo todo mês na conta, sem precisar comprovar nada.",
-      "Auxílio Focado (Bolsa Família): O dinheiro é pago apenas para famílias cadastradas que comprovam pobreza extrema e mantêm filhos na escola.",
-      "Sem Auxílios: Cada cidadão deve se sustentar pelo seu trabalho. Quem não tiver emprego deve contar com a caridade de ONGs ou igrejas."
+      "Renda para todos: Todo cidadão recebe um valor mensal do governo.",
+      "Ajuda apenas aos mais pobres: Benefícios destinados às famílias de baixa renda.",
+      "Sem auxílio governamental: Cada pessoa depende da própria renda."
     ],
     matriz: { elite: [-3, 0, 2], classe_media: [1, 2, -2], trabalhador: [3, 1, -3], vulneravel: [4, -1, -4] },
     meta: { pos: "garante uma segurança para ninguém passar fome, dando dignidade para quem perde o emprego.", neg: "deixa você totalmente sem dinheiro ou comida caso passe por uma crise ou fique desempregado." }
@@ -347,9 +347,9 @@ const EIXOS_POLITICOS = [
   {
     label: "7. Direito à Moradia e Aluguel",
     opcoes: [
-      "Controle Estatal: O governo congela o preço dos aluguéis e toma prédios abandonados no centro para dar moradia aos sem-teto.",
-      "Financiamento Popular: O governo cria programas de habitação (tipo Minha Casa, Minha Vida) com juros bem baratinhos.",
-      "Mercado de Imóveis Livre: Os proprietários cobram o valor de aluguel que quiserem e constroem onde der mais lucro."
+      "Intervenção forte do governo: Controle de aluguéis e uso de imóveis vazios para moradia.",
+      "Programas habitacionais: Financiamento facilitado para compra da casa própria.",
+      "Mercado livre: Preços de aluguel definidos pelos proprietários."
     ],
     matriz: { elite: [-3, 0, 3], classe_media: [0, 2, -1], trabalhador: [3, 1, -3], vulneravel: [4, 0, -4] },
     meta: { pos: "garante um teto seguro, água encanada e dignidade perto das regiões onde estão os empregos.",
@@ -358,9 +358,9 @@ const EIXOS_POLITICOS = [
   {
     label: "8. Educação Pública",
     opcoes: [
-      "Universalização Total: Educação 100% pública e gratuita do berçário à universidade, com merenda, material e transporte incluídos.",
-      "Sistema Misto: Escolas públicas funcionando com qualidade, mas escolas particulares podendo operar livremente.",
-      "Voucher Escolar: O governo dá um cupom de desconto para cada família escolher qualquer escola privada; escolas públicas são fechadas."
+      "Educação pública ampla: Ensino gratuito da infância à universidade.",
+      "Sistema misto: Escolas públicas e privadas coexistem.",
+      "Voucher educacional: Famílias recebem ajuda para escolher escolas privadas."
     ],
     matriz: { elite: [-2, 1, 2], classe_media: [1, 2, -1], trabalhador: [3, 1, -2], vulneravel: [4, 0, -3] },
     meta: { pos: "garante que o seu futuro e o dos seus filhos não dependa do CEP em que nasceram.",
@@ -369,9 +369,9 @@ const EIXOS_POLITICOS = [
   {
     label: "9. Segurança Pública e Encarceramento",
     opcoes: [
-      "Justiça Restaurativa: Foco em reabilitação, redução do encarceramento em massa e investimento em políticas sociais nas periferias.",
-      "Policiamento Comunitário: Polícia próxima da comunidade, com câmeras corporais e ouvidoria independente.",
-      "Tolerância Zero: Penas máximas, mais prisões e autorização ampla para uso de força policial nas ruas."
+      "Reabilitação: Prioridade para recuperar infratores e prevenir crimes.",
+      "Polícia comunitária: Aproximação entre polícia e moradores.",
+      "Punição mais dura: Mais prisões e penas mais severas."
     ],
     matriz: { elite: [0, 1, 2], classe_media: [1, 2, -1], trabalhador: [2, 1, -2], vulneravel: [3, 1, -3] },
     meta: { pos: "reduz o risco de você ou alguém da sua família ser preso injustamente ou vítima de violência policial.",
@@ -380,9 +380,9 @@ const EIXOS_POLITICOS = [
   {
     label: "10. Direitos Trabalhistas e Proteção ao Emprego",
     opcoes: [
-      "CLT Reforçada: Carteira assinada obrigatória, férias, 13º salário, estabilidade no emprego e limite de jornada de 40h semanais.",
-      "Flexibilização Negociada: Contratos flexíveis, mas com piso salarial garantido e negociação via sindicatos fortes.",
-      "Desregulamentação Total: Cada trabalhador negocia individualmente com o empregador sem proteção legal mínima."
+      "Proteção trabalhista forte: Mais garantias e direitos para os trabalhadores.",
+      "Modelo intermediário: Flexibilidade com algumas garantias trabalhistas.",
+      "Poucas regras: Empregado e empregador negociam livremente."
     ],
     matriz: { elite: [-2, 0, 3], classe_media: [1, 2, -1], trabalhador: [3, 1, -3], vulneravel: [3, 1, -3] },
     meta: { pos: "garante que você não seja demitido sem aviso, não trabalhe sem limite de horas e tenha direito a férias e saúde.",
