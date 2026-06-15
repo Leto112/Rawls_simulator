@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RawlsLab v2.0 – O Jogo do Véu da Ignorância</title>
+<style>
+  :root {
+    --primary: #1e3a8a;
+    --primary-light: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-main: #f1f5f9;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --border: #cbd5e1;
+    --success: #059669;
+    --danger: #dc2626;
+    --warning: #d97706;
+  }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px 15px;
+    line-height: 1.6;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 35px;
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 20px;
+  }
+
+  h1 {
+    font-size: 2.4rem;
+    color: var(--primary);
+    margin: 0 0 5px 0;
+  }
+
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .panel-info {
+    background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+    padding: 20px 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    border: 1px solid #7dd3fc;
+    font-size: 1rem;
+  }
+
+  .grid-politicas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  @media(max-width: 768px) {
+    .grid-politicas { grid-template-columns: 1fr; }
+  }
+
+  .policy-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .policy-card label {
+    display: block;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+    color: var(--primary);
+  }
+
+  select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background-color: #f8fafc;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
+  }
+
+  select:focus {
+    border-color: var(--primary-light);
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+
+  .btn-container {
+    text-align: center;
+    margin: 40px 0;
+  }
+
+  button {
+    padding: 18px 40px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    background-color: var(--primary-light);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+    transition: all 0.2s;
+  }
+
+  button:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+  }
+
+  .result-section {
+    background: var(--card-bg);
+    border: 3px solid var(--primary);
+    border-radius: 16px;
+    padding: 30px;
+    margin-top: 30px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    display: none;
+    animation: slideUp 0.4s ease-out;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .badge-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+
+  @media(max-width: 600px) {
+    .badge-grid { grid-template-columns: 1fr; }
+  }
+
+  .identity-box, .event-box {
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+
+  .identity-box {
+    background-color: #f8fafc;
+    border-left: 6px solid var(--primary-light);
+  }
+
+  .event-box {
+    background-color: #fffbeb;
+    border-left: 6px solid var(--warning);
+  }
+
+  .diagnostic-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .diagnostic-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .diagnostic-item:last-child { border-bottom: none; }
+
+  .status-icon { font-size: 1.2rem; }
+
+  .score-tag {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+
+  .score-positive { background-color: #d1fae5; color: var(--success); }
+  .score-negative { background-color: #fee2e2; color: var(--danger); }
+  .score-neutral { background-color: #f1f5f9; color: var(--text-muted); }
+
+  .debate-card {
+    background-color: #f8fafc;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+    border: 1px solid var(--border);
+  }
+
+  .debate-card ul { padding-left: 20px; }
+  .debate-card li { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>RawlsLab v2.0</h1>
+  <p class="subtitle">O Experimento de Pensamento de John Rawls</p>
+</header>
+
+<div class="panel-info">
+  <strong>Regras do Jogo:</strong> Imagine que você vai nascer em uma nova sociedade, mas está protegido pelo <strong>Véu da Ignorância</strong>. Você não sabe se vai nascer rico ou pobre, homem ou mulher, negro ou branco, gênio ou com dificuldades, saudável ou com alguma deficiência. Escolha as leis do país pensando no que seria mais justo e seguro para você, independentemente de quem você venha a ser.
+</div>
+
+<div class="grid-politicas" id="politicas-wrapper"></div>
+
+<div class="btn-container">
+  <button onclick="processarCenario()">Tirar o Véu e Descobrir Quem Eu Sou</button>
+</div>
+
+<div class="result-section" id="bloco-resultados">
+  <h2>O Véu Subiu! Conheça a sua Vida</h2>
+  
+  <div class="badge-grid">
+    <div class="identity-box">
+      <span style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); font-weight: bold;">Sua Identidade Sorteada:</span>
+      <div id="id-nome" style="font-size: 1.25rem; font-weight: bold; margin-top: 4px; color: var(--primary);"></div>
+    </div>
+    <div class="event-box">
+      <span style="font-size: 0.85rem; text-transform: uppercase; color: #92400e; font-weight: bold;">Imprevisto / Sorte da Vida:</span>
+      <div id="id-evento" style="font-size: 1.05rem; margin-top: 4px; color: #78350f;"></div>
+    </div>
+  </div>
+
+  <div id="placar-bem-estar"></div>
+  
+  <h3>Como as leis que você escolheu afetaram a sua vida:</h3>
+  <div id="diagnostico-detalhado"></div>
+
+  <div class="debate-card">
+    <h3>Perguntas para Pensar e Debater em Grupo</h3>
+    <ul>
+      <li><strong>Regra do Pior Cenário (Maximin):</strong> Se você deu o azar de nascer na pior posição social, as leis que você mesmo escolheu garantiram que você tivesse uma vida digna e direitos básicos?</li>
+      <li><strong>A Loteria da Vida:</strong> Diante do imprevisto que aconteceu com você, as leis do governo te ajudaram a segurar a barra ou você foi deixado para trás pelo mercado livre?</li>
+      <li><strong>Riqueza vs. Estímulo:</strong> Se você cobrou impostos demais dos ricos, sobrou dinheiro para criar empregos e investimentos no país? Se cobrou de menos, os mais pobres ficaram sem nada? Como achar o equilíbrio que Rawls defendia?</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+const BASE_PERFIS = [
+  { nome: "Investidora de Startups e Grandes Empresas", cat: "elite" },
+  { nome: "Juiz de Direito Federal", cat: "elite" },
+  { nome: "Fazendeiro / Grande Dono de Terras do Agronegócio", cat: "elite" },
+  { nome: "Herdeira de uma Grande Rede de Supermercados", cat: "elite" },
+  
+  { nome: "Arquiteto com Escritório Próprio", cat: "classe_media" },
+  { nome: "Enfermeira de Plantão em UTI Hospitalar", cat: "classe_media" },
+  { nome: "Programador de Computador Pleno", cat: "classe_media" },
+  { nome: "Professora de História do Estado", cat: "classe_media" },
+  
+  { nome: "Entregador de Aplicativo de Moto/Carga", cat: "trabalhador" },
+  { nome: "Trabalhador de Linha de Montagem de Fábrica", cat: "trabalhador" },
+  { nome: "Auxiliar de Faxina e Serviços Gerais", cat: "trabalhador" },
+  { nome: "Cozinheira de Restaurante por Quilo", cat: "trabalhador" },
+  
+  { nome: "Mãe Solo desempregada cuidando de 3 filhos pequenos", cat: "vulneravel" },
+  { nome: "Jovem cadeirante que mora sozinho e não tem apoio da família", cat: "vulneravel" },
+  { nome: "Imigrante que acabou de chegar ao país sem documentos", cat: "vulneravel" },
+  { nome: "Ex-detento tentando reconstruir a vida sem estudo ou apoio", cat: "vulneravel" }
+];
+
+const EIXOS_POLITICOS = [
+  {
+    label: "1. Imposto sobre Grandes Heranças",
+    opcoes: [
+      "Alto: O governo cobra taxas altas sobre grandes heranças para financiar um fundo de ajuda para os jovens começarem a vida.",
+      "Moderado: Taxas equilibradas para que as famílias passem bens aos filhos, mas sem acumular fortunas eternas.",
+      "Zero: Sem impostos sobre herança. Cada um passa tudo o que tem para os filhos sem dar nada ao State."
+    ],
+    matriz: { elite: [-3, 0, 3], classe_media: [0, 1, -1], trabalhador: [2, 1, -2], vulneravel: [3, 0, -3] },
+    meta: { pos: "diminui a desigualdade de quem já nasce milionário e distribui oportunidades para quem está começando do zero.", neg: "reduz o patrimônio que sua família juntou e diminui sua liberdade de investir seu próprio dinheiro." }
+  },
+  {
+    label: "2. Sistema de Saúde",
+    opcoes: [
+      "100% Público e Gratuito: Hospitais privados de luxo são proibidos. Todo o dinheiro vai para um sistema público único de qualidade para todos.",
+      "Sistema Misto: O governo mantém hospitais públicos funcionando em paralelo com planos de saúde particulares.",
+      "Mercado Livre: O governo só atende quem está na miséria absoluta; o restante da população precisa pagar consultas e planos do próprio bolso."
+    ],
+    matriz: { elite: [-1, 2, 1], classe_media: [1, 2, -2], trabalhador: [3, 1, -3], vulneravel: [3, -1, -4] },
+    meta: { pos: "protege você e sua família de falirem ou ficarem sem atendimento caso fiquem gravemente doentes.", neg: "faz com que o seu tratamento de saúde dependa diretamente do dinheiro que você tem na conta bancária." }
+  },
+  {
+    label: "3. Cotas e Ações Afirmativas (Raça e Gênero)",
+    opcoes: [
+      "Cotas Obrigatórias: Vagas reservadas por lei para negros, indígenas e mulheres em universidades, cargos públicos e diretorias de empresas particulares.",
+      "Incentivos e Apoio: O governo dá descontos nos impostos para empresas que contratam minorias e financia cursinhos populares.",
+      "Livre Concorrência Absoluta: Nenhuma lei de cotas. As seleções usam apenas notas e currículos, sem olhar para gênero ou raça."
+    ],
+    matriz: { elite: [-2, 1, 2], classe_media: [1, 2, -1], trabalhador: [2, 1, -1], vulneravel: [3, 1, -2] },
+    meta: { pos: "ajuda a corrigir injustiças históricas e abre portas para quem sempre foi excluído do mercado.", neg: "fecha vagas competitivas tradicionais para quem confiava apenas na concorrência padrão por notas." }
+  },
+  {
+    label: "4. Salário Máximo e Diferenças de Renda",
+    opcoes: [
+      "Teto Rígido: O maior salário do país (seja de um jogador de futebol ou grande empresário) não pode passar de 15 vezes o salário mínimo.",
+      "Teto Público: Limitação de super-salários apenas para políticos, juízes e altos cargos do governo.",
+      "Sem Limites: O mercado decide. Se um empresário ou influenciador ganhar milhões por mês, o governo não interfere."
+    ],
+    matriz: { elite: [-3, -1, 3], classe_media: [1, 1, 0], trabalhador: [2, 1, -2], vulneravel: [3, 0, -2] },
+    meta: { pos: "diminui a distância absurda entre os mais ricos e os mais pobres, ajudando a subir o salário da base.", neg: "permite acumular o máximo de riqueza possível e recompensa quem tem talentos raros valorizados pelo mercado." }
+  },
+  {
+    label: "5. Meio Ambiente e Mudança Climática",
+    opcoes: [
+      "Leis Ambientais Rígidas: Multas pesadas e fechamento de indústrias poluentes. Proibição de desmatar novas áreas, mesmo que isso diminua a produção.",
+      "Transição Ecológica: O governo dá prêmios e incentivos para empresas que usarem energia solar ou limpa.",
+      "Foco no Crescimento Econômico: Flexibilização das leis de desmatamento e poluição para abrir indústrias e empregos rapidamente."
+    ],
+    matriz: { elite: [-3, 1, 3], classe_media: [1, 1, -1], trabalhador: [-1, 1, 2], vulneravel: [2, 1, -2] },
+    meta: { pos: "protege você dos desastres do clima, como enchentes, ondas de calor e contaminação da água.", neg: "ajuda a abrir vagas rápidas de trabalho em indústrias e fazendas, aumentando o lucro imediato dos negócios." }
+  },
+  {
+    label: "6. Ajuda Financeira e Renda Básica",
+    opcoes: [
+      "Renda Básica Universal: Todo e qualquer cidadão do país recebe um salário mínimo todo mês na conta, sem precisar comprovar nada.",
+      "Auxílio Focado (Bolsa Família): O dinheiro é pago apenas para famílias cadastradas que comprovam pobreza extrema e mantêm filhos na escola.",
+      "Sem Auxílios: Cada cidadão deve se sustentar pelo seu trabalho. Quem não tiver emprego deve contar com a caridade de ONGs ou igrejas."
+    ],
+    matriz: { elite: [-3, 0, 2], classe_media: [1, 2, -2], trabalhador: [3, 1, -3], vulneravel: [4, -1, -4] },
+    meta: { pos: "garante uma segurança para ninguém passar fome, dando dignidade para quem perde o emprego.", neg: "deixa você totalmente sem dinheiro ou comida caso passe por uma crise ou fique desempregado." }
+  },
+  {
+    label: "7. Direito à Moradia e Aluguel",
+    opcoes: [
+      "Controle Estatal: O governo congela o preço dos aluguéis e toma prédios abandonados no centro para dar moradia aos sem-teto.",
+      "Financiamento Popular: O governo cria programas de habitação (tipo Minha Casa, Minha Vida) com juros bem baratinhos.",
+      "Mercado de Imóveis Livre: Os proprietários cobram o valor de aluguel que quiserem e constroem onde der mais lucro."
+    ],
+    matriz: { elite: [-3, 0, 3], classe_media: [0, 2, -1], trabalhador: [3, 1, -3], vulneravel: [4, 0, -4] },
+    meta: { pos: "garante um teto seguro, água encanada e dignidade perto das regiões onde estão os empregos.",
+             neg: "faz com que moradia dependa inteiramente do seu poder de compra, expulsando os mais pobres para as periferias." }
+  },
+  {
+    label: "8. Educação Pública",
+    opcoes: [
+      "Universalização Total: Educação 100% pública e gratuita do berçário à universidade, com merenda, material e transporte incluídos.",
+      "Sistema Misto: Escolas públicas funcionando com qualidade, mas escolas particulares podendo operar livremente.",
+      "Voucher Escolar: O governo dá um cupom de desconto para cada família escolher qualquer escola privada; escolas públicas são fechadas."
+    ],
+    matriz: { elite: [-2, 1, 2], classe_media: [1, 2, -1], trabalhador: [3, 1, -2], vulneravel: [4, 0, -3] },
+    meta: { pos: "garante que o seu futuro e o dos seus filhos não dependa do CEP em que nasceram.",
+             neg: "concentra o acesso ao ensino de qualidade em quem pode pagar, fechando portas para quem não tem renda." }
+  },
+  {
+    label: "9. Segurança Pública e Encarceramento",
+    opcoes: [
+      "Justiça Restaurativa: Foco em reabilitação, redução do encarceramento em massa e investimento em políticas sociais nas periferias.",
+      "Policiamento Comunitário: Polícia próxima da comunidade, com câmeras corporais e ouvidoria independente.",
+      "Tolerância Zero: Penas máximas, mais prisões e autorização ampla para uso de força policial nas ruas."
+    ],
+    matriz: { elite: [0, 1, 2], classe_media: [1, 2, -1], trabalhador: [2, 1, -2], vulneravel: [3, 1, -3] },
+    meta: { pos: "reduz o risco de você ou alguém da sua família ser preso injustamente ou vítima de violência policial.",
+             neg: "aumenta o rigor punitivo, o que pode te proteger do crime mas também te expor à brutalidade institucional." }
+  },
+  {
+    label: "10. Direitos Trabalhistas e Proteção ao Emprego",
+    opcoes: [
+      "CLT Reforçada: Carteira assinada obrigatória, férias, 13º salário, estabilidade no emprego e limite de jornada de 40h semanais.",
+      "Flexibilização Negociada: Contratos flexíveis, mas com piso salarial garantido e negociação via sindicatos fortes.",
+      "Desregulamentação Total: Cada trabalhador negocia individualmente com o empregador sem proteção legal mínima."
+    ],
+    matriz: { elite: [-2, 0, 3], classe_media: [1, 2, -1], trabalhador: [3, 1, -3], vulneravel: [3, 1, -3] },
+    meta: { pos: "garante que você não seja demitido sem aviso, não trabalhe sem limite de horas e tenha direito a férias e saúde.",
+             neg: "deixa você sem proteção contra demissões abusivas, jornadas excessivas e exploração pelo empregador." }
+  }
+];
+
+const EVENTOS_DE_VIDA = [
+  { texto: "Você desenvolveu uma doença crônica que exige tratamento contínuo e caro.", cats: ["vulneravel", "trabalhador"] },
+  { texto: "Você perdeu seu emprego durante uma crise econômica e ficou 8 meses desempregado(a).", cats: ["trabalhador", "classe_media"] },
+  { texto: "Seu bairro foi atingido por uma enchente devastadora que destruiu sua casa.", cats: ["vulneravel", "trabalhador"] },
+  { texto: "Você foi aprovado(a) em um concurso público de alto nível, garantindo estabilidade.", cats: ["classe_media", "elite"] },
+  { texto: "Você sofreu um acidente de trabalho grave e ficou impossibilitado(a) de trabalhar por 1 ano.", cats: ["trabalhador", "vulneravel"] },
+  { texto: "Seu filho(a) foi aprovado(a) em uma universidade federal de prestígio.", cats: ["trabalhador", "classe_media"] },
+  { texto: "Você recebeu uma herança inesperada de um parente distante.", cats: ["elite", "classe_media"] },
+  { texto: "Você foi vítima de discriminação racial em um processo seletivo de emprego.", cats: ["vulneravel", "trabalhador"] },
+  { texto: "Sua empresa faliu durante a pandemia e você perdeu todas as suas economias.", cats: ["elite", "classe_media"] },
+  { texto: "Você conseguiu uma bolsa de estudos integral para estudar no exterior.", cats: ["classe_media", "trabalhador"] },
+  { texto: "Você foi diagnosticado(a) com depressão severa e precisou de afastamento e tratamento.", cats: ["trabalhador", "classe_media", "vulneravel"] },
+  { texto: "Seu bairro recebeu grandes investimentos públicos em infraestrutura e saneamento.", cats: ["trabalhador", "vulneravel"] },
+  { texto: "Você foi preso(a) por engano e ficou 6 meses detido(a) antes de ser inocentado(a).", cats: ["vulneravel", "trabalhador"] },
+  { texto: "Uma nova lei trabalhista eliminou benefícios importantes do seu contrato de trabalho.", cats: ["trabalhador", "classe_media"] },
+  { texto: "Você se tornou cuidador(a) de um familiar com deficiência grave, limitando sua jornada de trabalho.", cats: ["vulneravel", "trabalhador", "classe_media"] },
+  { texto: "Graças ao seu capital e às leis favoráveis, seus investimentos triplicaram de valor.", cats: ["elite"] }
+];
+
+// ─── Renderiza os cards de política ───────────────────────────────────────────
+function renderizarPoliticas() {
+  const wrapper = document.getElementById('politicas-wrapper');
+  wrapper.innerHTML = '';
+  EIXOS_POLITICOS.forEach((eixo, i) => {
+    const card = document.createElement('div');
+    card.className = 'policy-card';
+    const opts = eixo.opcoes.map((op, j) =>
+      `<option value="${j}">${op}</option>`
+    ).join('');
+    card.innerHTML = `
+      <label for="eixo-${i}">${eixo.label}</label>
+      <select id="eixo-${i}">${opts}</select>
+    `;
+    wrapper.appendChild(card);
+  });
+}
+
+// ─── Processa o cenário ao clicar no botão ────────────────────────────────────
+function processarCenario() {
+  // Sorteia perfil
+  const perfil = BASE_PERFIS[Math.floor(Math.random() * BASE_PERFIS.length)];
+
+  // Sorteia evento relevante para o perfil (ou qualquer um)
+  const eventosCompativeis = EVENTOS_DE_VIDA.filter(e =>
+    !e.cats || e.cats.includes(perfil.cat)
+  );
+  const pool = eventosCompativeis.length > 0 ? eventosCompativeis : EVENTOS_DE_VIDA;
+  const evento = pool[Math.floor(Math.random() * pool.length)];
+
+  // Coleta escolhas e calcula pontuação
+  let pontuacaoTotal = 0;
+  const diagnosticos = [];
+
+  EIXOS_POLITICOS.forEach((eixo, i) => {
+    const escolhaIdx = parseInt(document.getElementById(`eixo-${i}`).value);
+    const delta = eixo.matriz[perfil.cat][escolhaIdx];
+    pontuacaoTotal += delta;
+
+    const labelOpcao = eixo.opcoes[escolhaIdx].split(':')[0];
+    const icone = delta > 0 ? '✅' : delta < 0 ? '❌' : '➖';
+    const classe = delta > 0 ? 'score-positive' : delta < 0 ? 'score-negative' : 'score-neutral';
+    const impactoTexto = delta > 0
+      ? `Esta política <strong>${eixo.meta.pos}</strong>`
+      : delta < 0
+        ? `Esta política <strong>${eixo.meta.neg}</strong>`
+        : `Esta política teve impacto neutro para o seu perfil.`;
+
+    diagnosticos.push(`
+      <li class="diagnostic-item">
+        <span class="status-icon">${icone}</span>
+        <div>
+          <strong>${eixo.label}</strong> — <em>${labelOpcao}</em><br>
+          <span style="font-size:0.92rem; color: var(--text-muted);">${impactoTexto}</span>
+          <br><span class="score-tag ${classe}">${delta > 0 ? '+' : ''}${delta} pontos de bem-estar</span>
+        </div>
+      </li>
+    `);
+  });
+
+  // Define veredicto final
+  let veredicto, corVeredicto;
+  if (pontuacaoTotal >= 15) {
+    veredicto = `🌟 Vida Próspera! (+${pontuacaoTotal} pts) — As leis que você escolheu criaram uma sociedade muito favorável para o seu perfil.`;
+    corVeredicto = 'var(--success)';
+  } else if (pontuacaoTotal >= 5) {
+    veredicto = `😊 Vida Estável (+${pontuacaoTotal} pts) — Você teve uma vida razoável, com algumas proteções e alguns sacrifícios.`;
+    corVeredicto = '#2563eb';
+  } else if (pontuacaoTotal >= -5) {
+    veredicto = `😐 Vida com Dificuldades (${pontuacaoTotal} pts) — O sistema que você desenhou não te ajudou muito, mas também não te destruiu.`;
+    corVeredicto = 'var(--warning)';
+  } else {
+    veredicto = `😔 Vida muito difícil (${pontuacaoTotal} pts) — As leis que você escolheu criaram um ambiente hostil para alguém no seu perfil.`;
+    corVeredicto = 'var(--danger)';
+  }
+
+  // Preenche o HTML de resultado
+  document.getElementById('id-nome').textContent = perfil.nome;
+  document.getElementById('id-evento').textContent = evento.texto;
+
+  document.getElementById('placar-bem-estar').innerHTML = `
+    <div style="background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:18px; margin-bottom:25px; text-align:center;">
+      <div style="font-size:0.85rem; text-transform:uppercase; color:var(--text-muted); font-weight:bold; margin-bottom:6px;">Placar de Bem-Estar Total</div>
+      <div style="font-size:1.4rem; font-weight:800; color:${corVeredicto};">${veredicto}</div>
+    </div>
+  `;
+
+  document.getElementById('diagnostico-detalhado').innerHTML =
+    `<ul class="diagnostic-list">${diagnosticos.join('')}</ul>`;
+
+  // Exibe o bloco de resultados com animação
+  const bloco = document.getElementById('bloco-resultados');
+  bloco.style.display = 'block';
+  bloco.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ─── Inicialização ────────────────────────────────────────────────────────────
+renderizarPoliticas();
+</script>
+</body>
+</html>
